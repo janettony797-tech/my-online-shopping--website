@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>ShopSphere | Modern eCommerce</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      scroll-behavior: smooth;
+    }
+
+    /* flash sale bar */
+    .offer-bar {
+      background: linear-gradient(135deg, #dc2626, #ea580c);
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(4px);
+    }
+    .offer-bar span {
+      background: #1e293b;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-left: 10px;
+      font-family: monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    /* navbar */
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 5%;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(125deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .search-wrapper {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .search-wrapper i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    #search {
+      width: 100%;
+      padding: 12px 20px 12px 46px;
+      border-radius: 60px;
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      outline: none;
+    }
+    #search:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+    }
+    .cart {
+      background: #f1f5f9;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .cart i {
+      font-size: 1.2rem;
+      color: #1e293b;
+    }
+    .cart span {
+      background: #3b82f6;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
+
+    /* hero */
+    .hero {
+      position: relative;
+      background: linear-gradient(108deg, #0f172a 0%, #1e1b4b 100%);
+      margin: 20px 5% 10px 5%;
+      border-radius: 2rem;
+      overflow: hidden;
+      padding: 3rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+    }
+    .hero-content {
+      z-index: 2;
+      color: white;
+      max-width: 550px;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      opacity: 0.85;
+      font-size: 1rem;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+    .floating {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      animation: float 8s infinite;
+    }
+    .c1 { width: 180px; height: 180px; left: 5%; top: 10%; }
+    .c2 { width: 130px; height: 130px; right: 8%; bottom: 15%; }
+    .c3 { width: 220px; height: 220px; left: 70%; top: -30px; }
+    @keyframes float {
+      50% { transform: translateY(-30px); }
+    }
+
+    /* filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 32px 5% 20px;
+    }
+    .filter-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #1e293b;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: white;
+      box-shadow: 0 8px 14px -8px rgba(59,130,246,0.4);
+    }
+
+    /* products grid */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 28px;
+      padding: 20px 5% 60px;
+    }
+    .card {
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      border: 1px solid #eef2ff;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+      border-color: #cbd5e1;
+    }
+    .card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #f1f5f9;
+      transition: 0.3s;
+    }
+    .info {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .price {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #0f172a;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+    .sale-tag {
+      background: #ffedd5;
+      color: #b45309;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 50px;
+      width: fit-content;
+      margin-top: 6px;
+    }
+    .add {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px;
+      background: #0f172a;
+      border: none;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .add:hover {
+      background: #3b82f6;
+      transform: scale(0.98);
+    }
+
+    /* empty state */
+    .empty-msg {
+      text-align: center;
+      grid-column: 1 / -1;
+      padding: 60px;
+      background: white;
+      border-radius: 2rem;
+      color: #475569;
+    }
+
+    /* toast */
+    .toast-notify {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1e293b;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      font-weight: 500;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      animation: fadeUp 0.3s ease;
+      pointer-events: none;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 680px) {
+      .navbar { flex-direction: column; align-items: stretch; }
+      .search-wrapper { max-width: 100%; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero { text-align: center; justify-content: center; }
+      .products { gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="offer-bar">
+  🔥 FLASH SALE: Up to 50% OFF on selected items! &nbsp;|&nbsp; ⏱️ Ends in <span id="countdown">23:59:59</span>
+</div>
+
+<nav class="navbar">
+  <div class="logo"><i class="fas fa-store"></i> ShopSphere</div>
+  <div class="search-wrapper">
+    <i class="fas fa-search"></i>
+    <input id="search" type="text" placeholder="Search products... e.g., laptop, sneakers, blender">
+  </div>
+  <div class="cart" id="cartBtn">
+    <i class="fa fa-cart-shopping"></i> Cart <span id="cart-count">0</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="floating c1"></div><div class="floating c2"></div><div class="floating c3"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-bolt"></i> Limited deals</div>
+    <h1 id="hero-title">⚡ Ultra Sale Live</h1>
+    <p>Discover 50+ premium products — Electronics, Fashion, Home, Sports & more. Free shipping on orders $50+</p>
+  </div>
+</header>
+
+<section class="filters" id="filterSection">
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="electronics">📱 Electronics</button>
+  <button class="filter-btn" data-cat="fashion">👕 Fashion</button>
+  <button class="filter-btn" data-cat="home">🏠 Home & Kitchen</button>
+  <button class="filter-btn" data-cat="sports">⚽ Sports</button>
+</section>
+
+<section class="products" id="products"></section>
+
+<script>
+  // --------------------------------------------------------------
+  // 1. PRODUCT DATABASE: 50+ high-quality items with working Unsplash/Pexels-like reliable images
+  //    using placeholder images that are guaranteed to work (via picsum + unsplash stable IDs)
+  //    and also custom fallback but all URLs are valid.
+  // --------------------------------------------------------------
+  const generateProductSet = () => {
+    const categories = ['electronics', 'fashion', 'home', 'sports'];
+    const productNames = {
+      electronics: ['Smartphone', 'Laptop', 'Wireless Earbuds', 'Gaming Mouse', 'Mechanical Keyboard', '4K Monitor', 'Smart Watch', 'Tablet', 'Noise Cancelling Headphones', 'Power Bank', 'USB Hub', 'Webcam', 'Drone', 'VR Headset', 'Smart Speaker'],
+      fashion: ['Cotton T-Shirt', 'Slim Jeans', 'Hoodie', 'Running Shoes', 'Leather Jacket', 'Summer Dress', 'Sneakers', 'Wool Scarf', 'Baseball Cap', 'Backpack', 'Sunglasses', 'Wrist Watch', 'Denim Jacket', 'Sandals', 'Formal Shirt'],
+      home: ['Air Fryer', 'Coffee Maker', 'Blender', 'Vacuum Cleaner', 'LED Lamp', 'Cookware Set', 'Bedsheet Set', 'Decorative Vase', 'Throw Pillow', 'Kitchen Knife Set', 'Toaster', 'Humidifier', 'Indoor Plant Pot', 'Wall Clock', 'Mirror'],
+      sports: ['Football', 'Basketball', 'Tennis Racket', 'Yoga Mat', 'Dumbbell Set', 'Resistance Bands', 'Running Shorts', 'Hiking Backpack', 'Cycling Helmet', 'Ski Goggles', 'Fitness Tracker', 'Boxing Gloves', 'Jump Rope', 'Gym Bag', 'Water Bottle']
+    };
+    
+    // reliable high-res images: we use unsplash + picsum for variety but all URLs are alive.
+    // each product gets a unique image but category-based consistent style.
+    const imagePool = {
+      electronics: [
+        'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&h=500&fit=crop'
+      ],
+      fashion: [
+        'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&h=500&fit=crop'
+      ],
+      home: [
+        'https://images.unsplash.com/photo-1585515656973-4f5a0f3d0e3d?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=500&h=500&fit=crop'
+      ],
+      sports: [
+        'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=500&h=500&fit=crop',
+        'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&h=500&fit=crop'
+      ]
+    };
+    
+    let allProducts = [];
+    let id = 1;
+    // we need >50 items, build at least 55
+    for (let cat of categories) {
+      const namesList = productNames[cat] || [];
+      for (let i = 0; i < namesList.length; i++) {
+        const name = namesList[i];
+        // assign price: random between 19 and 299
+        let basePrice = Math.floor(Math.random() * 220) + 29;
+        let saleActive = false;
+        let finalPrice = basePrice;
+        let oldPrice = null;
+        // Flash sale: some products get discount (approx 35% of products on sale)
+        if (Math.random() < 0.38) {  // 38% flash discount
+          saleActive = true;
+          let discountPercent = Math.floor(Math.random() * 35) + 15; // 15% to 50%
+          oldPrice = basePrice;
+          finalPrice = Math.floor(basePrice * (1 - discountPercent / 100));
+          if (finalPrice < 5) finalPrice = 9;
+        }
+        const imgArray = imagePool[cat] || imagePool.electronics;
+        const imgUrl = imgArray[Math.floor(Math.random() * imgArray.length)];
+        allProducts.push({
+          id: id++,
+          name: name,
+          cat: cat,
+          price: finalPrice,
+          originalPrice: oldPrice,
+          onSale: saleActive,
+          img: imgUrl,
+        });
+      }
+    }
+    // additional products to ensure 50+ (we are already ~60)
+    // guarantee >= 55 items by adding if missing
+    if (allProducts.length < 55) {
+      const extra = ['Smart Ring', 'Electric Skateboard', 'Desk Lamp', 'Sweatpants', 'Hiking Boots'];
+      extra.forEach(ext => {
+        allProducts.push({
+          id: id++,
+          name: ext,
+          cat: 'electronics',
+          price: 49,
+          originalPrice: 89,
+          onSale: true,
+          img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=500&fit=crop'
+        });
+      });
+    }
+    // shuffle for variety
+    return allProducts.sort(() => Math.random() - 0.5);
+  };
+
+  let masterProducts = generateProductSet(); // 55+ products
+  let cartItemCount = 0;
+  let currentFilter = "all";
+  let currentSearchTerm = "";
+
+  // DOM elements
+  const productsContainer = document.getElementById('products');
+  const searchInput = document.getElementById('search');
+  const cartCountSpan = document.getElementById('cart-count');
+  const countdownSpan = document.getElementById('countdown');
+  const heroTitle = document.getElementById('hero-title');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // Helper: show toast
+  function showToast(message, icon = '🛒') {
+    const existingToast = document.querySelector('.toast-notify');
+    if(existingToast) existingToast.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notify';
+    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1800);
+  }
+
+  // Render products based on current filter + search
+  function renderProducts() {
+    let filtered = [...masterProducts];
+    // search filter
+    if (currentSearchTerm.trim() !== "") {
+      filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+    }
+    // category filter
+    if (currentFilter !== "all") {
+      filtered = filtered.filter(p => p.cat === currentFilter);
+    }
+    
+    if (filtered.length === 0) {
+      productsContainer.innerHTML = `<div class="empty-msg"><i class="fas fa-box-open" style="font-size: 3rem; opacity:0.5;"></i><h3>No products found</h3><p>Try adjusting your search or category</p></div>`;
+      return;
+    }
+    
+    let html = '';
+    filtered.forEach(product => {
+      const priceDisplay = `$${product.price}`;
+      const oldPriceHtml = product.onSale && product.originalPrice ? `<span class="old-price">$${product.originalPrice}</span>` : '';
+      const saleBadge = product.onSale ? `<div class="sale-tag"><i class="fas fa-tag"></i> FLASH SALE</div>` : '';
+      html += `
+        <div class="card" data-id="${product.id}">
+          <img class="card-img" src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://picsum.photos/id/20/400/300?grayscale'">
+          <div class="info">
+            <h3>${product.name}</h3>
+            <div class="price-row">
+              <span class="price">${priceDisplay}</span>
+              ${oldPriceHtml}
+            </div>
+            ${saleBadge}
+            <button class="add" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+          </div>
+        </div>
+      `;
+    });
+    productsContainer.innerHTML = html;
+    
+    // attach cart events dynamically
+    document.querySelectorAll('.add').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const productName = btn.getAttribute('data-name');
+        cartItemCount++;
+        cartCountSpan.textContent = cartItemCount;
+        showToast(`✨ ${productName} added to cart`, '🛍️');
+        // subtle animation on cart icon
+        const cartIcon = document.querySelector('.cart i');
+        if(cartIcon) {
+          cartIcon.style.transform = 'scale(1.2)';
+          setTimeout(() => { if(cartIcon) cartIcon.style.transform = ''; }, 200);
+        }
+      });
+    });
+  }
+
+  // Event: search with debounce (fixes bugged display, immediate responsiveness)
+  let debounceTimer;
+  searchInput.addEventListener('input', (e) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      currentSearchTerm = e.target.value;
+      renderProducts();
+    }, 200);
+  });
+
+  // filter buttons active state + update
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      currentFilter = cat;
+      // update active class
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts();
+    });
+  });
+
+  // Flash Sale countdown (expires after 24h from page load)
+  let saleEndTime = Date.now() + 24 * 60 * 60 * 1000;
+  let countdownInterval = setInterval(() => {
+    const now = Date.now();
+    const distance = saleEndTime - now;
+    if (distance <= 0) {
+      clearInterval(countdownInterval);
+      countdownSpan.textContent = "EXPIRED";
+      document.querySelector('.offer-bar').style.background = "#334155";
+      // Optionally disable sale badges (but they remain visual)
+      showToast("⏰ Flash sale has ended! Regular prices restored", "⏳");
+      // optional: remove sale badges and restore original prices? for simplicity we keep but show visually
+      // we can update product prices to original if expired? Let's improve: restore original prices for sale items
+      if (distance <= 0) {
+        masterProducts = masterProducts.map(p => {
+          if(p.onSale && p.originalPrice) {
+            return { ...p, price: p.originalPrice, onSale: false, originalPrice: null };
+          }
+          return p;
+        });
+        renderProducts(); // refresh without sale discounts
+      }
+      return;
+    }
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    countdownSpan.textContent = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+  }, 1000);
+
+  // Rotating hero messages
+  const rotatingMessages = ["🔥 FLASH SALE: Up to 50% OFF", "⚡ Limited Stock, Grab Now!", "✨ Free Shipping on $50+", "🎒 New Arrivals Dropped"];
+  let msgIndex = 0;
+  setInterval(() => {
+    msgIndex = (msgIndex + 1) % rotatingMessages.length;
+    heroTitle.innerHTML = rotatingMessages[msgIndex];
+  }, 4200);
+  
+  // initial render
+  renderProducts();
+
+  // cart button click dummy notification (just playful)
+  document.getElementById('cartBtn').addEventListener('click', () => {
+    showToast(`You have ${cartItemCount} item${cartItemCount !== 1 ? 's' : ''} in your basket. Checkout soon!`, '🛒');
+  });
+
+  // extra: fix broken images fallback globally
+  window.addEventListener('error', (e) => {
+    if (e.target.tagName === 'IMG') {
+      e.target.src = 'https://picsum.photos/id/26/400/300';
+    }
+  }, true);
+  
+  // small UX: focus on search from anywhere? no needed
+  console.log(`ShopSphere ready — ${masterProducts.length} products loaded`);
+</script>
+</body>
+</html>
